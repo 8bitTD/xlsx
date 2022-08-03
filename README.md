@@ -1,5 +1,7 @@
 # xlsx
-
+```
+xlsx = { git = "https://github.com/8bitTD/xlsx", branch = "main"}
+```
 
 ```
 fn main() {
