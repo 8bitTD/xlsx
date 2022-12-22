@@ -10,6 +10,7 @@ pub struct Cell{
     bg_col_index: Option<usize>,
     content: String,
     hyperlink: Option<String>,
+    validation: Option<String>,
 }
 impl Default for Cell{
     fn default() -> Self{
@@ -38,6 +39,10 @@ impl Cell{
     }
     pub fn set_hyperlink(mut self, path: &str) -> Self{
         self.hyperlink = Some(path.to_string());
+        self
+    }
+    pub fn set_valication(mut self, validation: &str) -> Self{
+        self.validation = Some(String::from(validation));
         self
     }
 }
@@ -252,6 +257,10 @@ fn export_ps1(xlsx_path: &String, sheets: &Vec<Sheet>, rc: &std::sync::Arc<std::
             }
             if c.bg_col_index.is_some(){
                 cmd.push(format!("$sheet.Cells.Item({},{}).Interior.ColorIndex = {};{}",c.py, c.px, c.bg_col_index.unwrap(),"\n"));
+            }
+            if c.validation.is_some(){
+                cmd.push(format!("$sheet.Cells.Item({},{}).Validation.Delete();{}",c.py, c.px, "\n"));
+                cmd.push(format!(r#"$sheet.Cells.Item({},{}).Validation.Add(3, 1, 1, "{}");{}"#,c.py, c.px, c.validation.as_ref().unwrap(), "\n"));
             }
         }
         *rc.lock().unwrap() = format!("{}","セルの幅を設定をしています");
