@@ -2,6 +2,7 @@
 ## windows only
 
 ## example
+```
 /*
 [dependencies]
 dirs = "3.0"
@@ -24,3 +25,4 @@ fn main() {
         xlsx.update();
     }
 }
+```
